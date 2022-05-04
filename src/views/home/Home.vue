@@ -15,7 +15,7 @@
       <home-recommend :crecommends="recommends" />
       <!-- 本周流行大图 -->
       <home-feature-view />
-      <!-- 三个小版块 -->
+      <!-- 三个小版块，通过点击决定触发那个goods-list -->
       <tab-control
         class="home-tab-control"
         :ctitles="['流行', '新款', '精选']"
@@ -33,7 +33,7 @@ import NavBar from "components/common/navbar/NavBar";
 import HomeSwiper from "./childComps/HomeSwiper";
 import HomeRecommend from "./childComps/HomeRecommend";
 
-import { getHomeMultiData } from "network/home";
+import { getHomeMultiData, getGoodsData } from "network/home";
 
 import HomeFeatureView from "./childComps/HomeFeatureView";
 import TabControl from "components/contents/tabControl/TabControl";
@@ -59,6 +59,7 @@ export default {
       banners: [],
       recommends: [],
       goods: {
+        // 分别保存流行，新款，精选加载到的页数
         pop: { page: 0, list: [] },
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
@@ -67,25 +68,24 @@ export default {
       isShowBackTop: false,
     };
   },
+
+  // 在主页创建时，发送网络请求，请求数据
+  created() {
+    // 请求轮播，展示数据
+    this.getHomeData();
+    // 请求商品数据
+    this.getHomeGoodsData("pop");
+    this.getHomeGoodsData("new");
+    this.getHomeGoodsData("sell");
+  },
   computed: {
+    // 决定将哪个展示数据传给goods渲染组件
     showGoods() {
       return this.goods[this.currentType].list;
     },
   },
-  // 在主页创建时，发送网络请求，请求数据
-  created() {
-    getHomeMultiData().then((res) => {
-      console.log(res.data);
-      this.banners = res.data.banner.list;
-      this.recommends = res.data.recommend.list;
-    });
-    // this.getHomeData();
-
-    // this.getHomeGoodsData("pop");
-    // this.getHomeGoodsData("new");
-    // this.getHomeGoodsData("sell");
-  },
   methods: {
+    // 对选中的流行-新款-精选标签的currentType进行切换
     pTabClick(index) {
       switch (index) {
         case 0:
@@ -99,19 +99,24 @@ export default {
           break;
       }
     },
+
+    // 请求轮播，展示数据,并进行包装
     getHomeData() {
       getHomeMultiData().then((res) => {
-        this.banners = res.data.banners;
-        this.products = res.data.products;
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommend.list;
       });
     },
+    // 请求商品数据,并进行包装
     getHomeGoodsData(type) {
       let page = this.goods[type].page + 1;
       getGoodsData(type, page).then((res) => {
-        this.goods[type].list.push(...res.goods);
-        this.goods[type].page = res.page;
+        console.log(res);
+        this.goods[type].list.push(...res.data.list);
+        this.goods[type].page += 1;
       });
     },
+
     backTopClick() {
       // 通过$refs拿到组件中的对象
       this.$refs.scroller.scrollTo(0, 0, 500);

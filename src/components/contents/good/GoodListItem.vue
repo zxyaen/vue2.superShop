@@ -1,11 +1,13 @@
 <template>
   <div class="goods-item">
-    <img :src="goodItem.image" alt="">
+    <a :href="goodItem.link">
+    <img :src="goodItem.show.img" alt="">
     <div class="goods-info">
-      <p >{{goodItem.name}}</p>
-      <span class="price">{{goodItem.currency_symbol + goodItem.price_rmb}}</span>
-      <span class="collect">{{goodItem.id}}</span>
+      <p >{{goodItem.title}}</p>
+      <span class="price">{{goodItem.price}}</span>
+      <span class="collect">{{goodItem.sale}}</span>
     </div>
+    </a>
   </div>
 
 </template>

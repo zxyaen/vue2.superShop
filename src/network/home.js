@@ -9,7 +9,7 @@ export function getHomeMultiData() {
 
 export function getGoodsData(type, page) {
   return request({
-    url:'/test/getGoods',
+    url:'home/data',
     params:{
       type,
       page
