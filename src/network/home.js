@@ -1,8 +1,9 @@
+// 封装首页对数据的请求
 import {request} from './request'
 
 export function getHomeMultiData() {
   return request({
-    url:'/test/getBanners'
+    url:'home/multidata'
   });
 }
 

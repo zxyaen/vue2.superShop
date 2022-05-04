@@ -1,4 +1,5 @@
 <template>
+<!--该组件用来控制tabbar整体样式  -->
   <div id="tab-bar">
     <slot></slot>
   </div>

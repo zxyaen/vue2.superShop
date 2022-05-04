@@ -2,6 +2,7 @@
   <tar-bar>
     <tar-bar-item path="/home" >
       <!--dom 中使用路径需要用 ~ 来识别配置的别名-->
+      <!-- 两个图片地址，分别对应点击时和未点击时 -->
       <img slot="item-icon" src="~assets/images/tabbar/home.svg" alt="">
       <img slot="item-icon-active" src="~assets/images/tabbar/home_active.svg" alt="">
       <div slot="item-text">首页</div>
@@ -25,13 +26,15 @@
 </template>
 
 <script>
+// 对公用TabBar中组件进行进一步封装
     import TarBar from 'components/common/tarbar/TarBar'
     import TarBarItem from 'components/common/tarbar/TarBarItem'
 
     export default {
         name: "MainTarBar",
         components: {
-            TarBar,TarBarItem
+            TarBar,
+            TarBarItem
         }
     }
 </script>

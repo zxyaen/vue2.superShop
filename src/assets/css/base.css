@@ -1,10 +1,11 @@
+/* 引用normalize文件 */
 @import "./normalize.css";
 
 /*:root -> 获取根元素html*/
 :root {
   --color-text: #666;
-  --color-high-text: #ff5777;
-  --color-tint: #ff8198;
+  --color-high-text: #0075af;
+  --color-tint: #4192e2;
   --color-background: #fff;
   --font-size: 14px;
   --line-height: 1.5;

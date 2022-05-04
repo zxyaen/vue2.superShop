@@ -17,18 +17,22 @@
 	export default {
 		name: "Swiper",
     props: {
+      // 切换间隔
       interval: {
 		    type: Number,
         default: 3000
       },
+      // 开始滚动延时
       animDuration: {
 		    type: Number,
         default: 300
       },
+      // 控制轮播图滚动切换距离
       moveRatio: {
         type: Number,
         default: 0.25
       },
+      // 切换指示器是否显示
       showIndicator: {
         type: Boolean,
         default: true

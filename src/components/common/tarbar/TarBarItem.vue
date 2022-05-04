@@ -1,4 +1,5 @@
 <template>
+<!-- 该组件作为tabbar中item，显示每一个item -->
   <div class="tab-bar-item" @click="itemClick">
     <slot v-if="!isActive" name="item-icon"></slot>
     <slot v-else name="item-icon-active"></slot>
@@ -58,7 +59,7 @@
   }
 
   .actived {
-    color:coral;
+    color:rgb(33, 250, 225);
     font-weight: bolder;
   }
 
