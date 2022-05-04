@@ -21,6 +21,7 @@
         :ctitles="['流行', '新款', '精选']"
         @tabClick="pTabClick"
       />
+      <!-- 商品渲染列表，使用showGoods对传入数据进行封装 -->
       <goods-list :cgoods="showGoods" />
     </scroller>
 
