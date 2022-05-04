@@ -51,6 +51,7 @@
 
   .tab-control-item span {
     padding: 5px;
+    cursor: pointer;
   }
 
   .active {

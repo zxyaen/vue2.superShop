@@ -149,7 +149,7 @@ export default {
 }
 
 .home-scroller {
-  /*height:300px;*/
+  /*此处hidden导致sticky不起作用！！！！！！！*/
   overflow: hidden;
   position: absolute;
   top: 44px;
