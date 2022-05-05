@@ -2,7 +2,9 @@
   <div id="home">
     <!-- 导航部分 -->
     <nav-bar class="home-nav-bar"><div slot="center">购物街</div></nav-bar>
+
     <!-- ref 是用于定位元素和取到组件的内容，:是绑定属性 @是绑定方法-->
+    <!--  -->
     <scroller
       class="home-scroller"
       ref="scroller"
@@ -30,17 +32,20 @@
 </template>
 
 <script>
+// 公共组件
 import NavBar from "components/common/navbar/NavBar";
-import HomeSwiper from "./childComps/HomeSwiper";
-import HomeRecommend from "./childComps/HomeRecommend";
-
-import { getHomeMultiData, getGoodsData } from "network/home";
-
-import HomeFeatureView from "./childComps/HomeFeatureView";
-import TabControl from "components/contents/tabControl/TabControl";
-import GoodsList from "components/contents/good/GoodsList";
 import Scroller from "components/common/scroller/Scroller";
 import BackTop from "components/contents/backTop/BackTop";
+
+// 主页组件
+import HomeSwiper from "./childComps/HomeSwiper";
+import HomeRecommend from "./childComps/HomeRecommend";
+import GoodsList from "components/contents/good/GoodsList";
+import HomeFeatureView from "./childComps/HomeFeatureView";
+import TabControl from "components/contents/tabControl/TabControl";
+
+// 方法
+import { getHomeMultiData, getGoodsData } from "network/home";
 
 export default {
   name: "Home",
@@ -72,7 +77,7 @@ export default {
 
   // 在主页创建时，发送网络请求，请求数据
   created() {
-    // 请求轮播，展示数据
+    // 请求轮播和展示数据
     this.getHomeData();
     // 请求商品数据
     this.getHomeGoodsData("pop");
@@ -86,6 +91,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * 事件监听相关方法
+     */
     // 对选中的流行-新款-精选标签的currentType进行切换
     pTabClick(index) {
       switch (index) {
@@ -101,6 +109,9 @@ export default {
       }
     },
 
+    /**
+     * 网络请求相关方法
+     */
     // 请求轮播，展示数据,并进行包装
     getHomeData() {
       getHomeMultiData().then((res) => {
@@ -118,10 +129,13 @@ export default {
       });
     },
 
+    // 回到顶部
     backTopClick() {
       // 通过$refs拿到组件中的对象
       this.$refs.scroller.scrollTo(0, 0, 500);
     },
+
+    // 获取对位置的实时监测
     getPostion(postion) {
       this.isShowBackTop = -postion.y > 300;
     },
