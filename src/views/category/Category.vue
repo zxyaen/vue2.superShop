@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>品类</h2>
-    <scroller class="wrapper">
+    <scroller class="wrapper" >
       <div class="content">
         <ul>
           <li>分类1</li>

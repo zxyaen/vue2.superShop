@@ -8,8 +8,9 @@
     <scroller
       class="home-scroller"
       ref="scroller"
-      :probe-type="3"
-      @scroll="getPostion"
+      :probeType="3"
+      @scroll="getPosition"
+      :pull-up-load="true"
     >
       <!-- 轮播部分 -->
       <home-swiper :cbanners="banners" />
@@ -26,7 +27,7 @@
       <!-- 商品渲染列表，使用showGoods对传入数据进行封装 -->
       <goods-list :cgoods="showGoods" />
     </scroller>
-
+    <!-- 回到顶部 -->
     <back-top @click.native="backTopClick" v-show="isShowBackTop" />
   </div>
 </template>
@@ -94,6 +95,19 @@ export default {
     /**
      * 事件监听相关方法
      */
+    // 回到顶部
+    backTopClick() {
+      // 通过$refs拿到组件中的scroller对象
+      this.$refs.scroller.scrollTo(0, 0, 500);
+    },
+
+    // 获取对位置的实时监测，决定是否要回到顶部
+    getPosition(position) {
+      // 如果向下滚动超过300px，则显示回到顶部按钮
+      this.isShowBackTop = -position.y > 300;
+      // console.log(-position.y);
+    },
+
     // 对选中的流行-新款-精选标签的currentType进行切换
     pTabClick(index) {
       switch (index) {
@@ -123,21 +137,9 @@ export default {
     getHomeGoodsData(type) {
       let page = this.goods[type].page + 1;
       getGoodsData(type, page).then((res) => {
-        console.log(res);
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
       });
-    },
-
-    // 回到顶部
-    backTopClick() {
-      // 通过$refs拿到组件中的对象
-      this.$refs.scroller.scrollTo(0, 0, 500);
-    },
-
-    // 获取对位置的实时监测
-    getPostion(postion) {
-      this.isShowBackTop = -postion.y > 300;
     },
   },
 };
@@ -145,7 +147,8 @@ export default {
 
 <style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
+  /* vh  viewport height */
   height: 100vh;
   position: relative;
 }
@@ -172,9 +175,9 @@ export default {
   /*此处hidden导致sticky不起作用！！！！！！！*/
   overflow: hidden;
   position: absolute;
-  top: 44px;
   bottom: 49px;
   right: 0;
   left: 0;
+  height: calc(100% - 93px);
 }
 </style>

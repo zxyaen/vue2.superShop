@@ -7,48 +7,61 @@
 </template>
 
 <script>
-    import BScroll from 'better-scroll'
+import BScroll from "better-scroll";
 
-    export default {
-        name: "scroller",
-        data() {
-            return {
-                scroller:{
-                    type:Object,
-                    default() {
-                        return {}
-                    }
-                }
-            }
+export default {
+  name: "scroller",
+  data() {
+    return {
+      scroller: {
+        type: Object,
+        default() {
+          return {};
         },
-        //接收父组件来的probeType（0，1不侦测实时位置，2在手指滚动过程中被侦测，手指离开后惯性不侦测，3只要滚动，都侦测）
-        props:{
-            probeType:{
-                type:Number,
-                default:0
-            }
-        },
-        mounted() {
-            // 不可以在created上创建，要在组件渲染完之后，再挂载
-            // 将模版根组件挂载到滚动组件上
-            // 默认情况下scroller不可以实时监听滚动位置，将获取到的probeType存入data
-            this.scroller = new BScroll(this.$refs.wrapper, {
-                probeType:this.probeType,
-            })
-            this.scroller.on('scroll', (postion) => {
-                this.$emit('scroll', postion)
-            })
-
-        },
-        methods:{
-            scrollTo(x, y, time=300) {
-                this.scroller.scrollTo(0, 0, time)
-            },
-
-        }
-    }
+      },
+    };
+  },
+  //接收父组件来的probeType（0，1不侦测实时位置，2在手指滚动过程中被侦测，手指离开后惯性不侦测，3只要滚动，都侦测）
+  props: {
+    probeType: {
+      type: Number,
+      default: 0,
+    },
+    pullUpload: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  mounted() {
+    // 不可以在created上创建，要在组件渲染完之后，再挂载
+    // 将模版根组件挂载到滚动组件上
+    // 默认情况下scroller不可以实时监听滚动位置，将获取到的probeType存入data
+    // 1.创建scroller对象
+    this.scroller = new BScroll(this.$refs.wrapper, {
+      //动态决定调用组件时需不需要对滚动进行侦听
+      probeType: this.probeType,
+      pullUpload: this.pullUpload,
+      click: true,
+    });
+    // 2.监听滚动事件确定滚动位置
+    this.scroller.on("scroll", (position) => {
+      // 通过emit调用父组件身上的方法
+      this.$emit("scroll", position);
+        // console.log(position);
+    });
+    // 3.监听上拉事件
+    this.scroller.on("pullingUp", () => {
+      console.log("上拉加载更多");
+    });
+  },
+  methods: {
+    //   回到顶部
+    scrollTo(x, y, time = 300) {
+      // 调用data中scroller数据，触发scrollTo事件
+      this.scroller.scrollTo(0, 0);
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
