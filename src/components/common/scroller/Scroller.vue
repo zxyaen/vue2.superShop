@@ -27,7 +27,7 @@ export default {
       type: Number,
       default: 0,
     },
-    pullUpload: {
+    pullUpLoad: {
       type: Boolean,
       default: false,
     },
@@ -40,7 +40,7 @@ export default {
     this.scroller = new BScroll(this.$refs.wrapper, {
       //动态决定调用组件时需不需要对滚动进行侦听
       probeType: this.probeType,
-      pullUpload: this.pullUpload,
+      pullUpLoad: this.pullUpLoad,
       click: true,
     });
     // 2.监听滚动事件确定滚动位置
@@ -49,7 +49,7 @@ export default {
       this.$emit("scroll", position);
         // console.log(position);
     });
-    // 3.监听上拉事件
+  //   // 3.监听上拉事件
     this.scroller.on("pullingUp", () => {
       console.log("上拉加载更多");
     });
