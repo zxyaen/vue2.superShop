@@ -47,11 +47,10 @@ export default {
     this.scroller.on("scroll", (position) => {
       // 通过emit调用父组件身上的方法
       this.$emit("scroll", position);
-        // console.log(position);
     });
   //   // 3.监听上拉事件
     this.scroller.on("pullingUp", () => {
-      console.log("上拉加载更多");
+      this.$emit("pullingUp")
     });
   },
   methods: {

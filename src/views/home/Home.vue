@@ -10,7 +10,8 @@
       ref="scroller"
       :probeType="3"
       @scroll="getPosition"
-      :pull-up-load="true"
+      :pullUpLoad="true"
+      @pullingUp="pullMore"
     >
       <!-- 轮播部分 -->
       <home-swiper :cbanners="banners" />
@@ -66,7 +67,7 @@ export default {
       banners: [],
       recommends: [],
       goods: {
-        // 分别保存流行，新款，精选加载到的页数
+        // 设计数据结构，分别保存流行，新款，精选的数据
         pop: { page: 0, list: [] },
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
@@ -107,6 +108,11 @@ export default {
       this.isShowBackTop = -position.y > 300;
       // console.log(-position.y);
     },
+    // 上拉加载更多事件
+    pullMore(){
+      this.getHomeGoodsData(this.currentType)
+      console.log("上拉加载更多");
+    },
 
     // 对选中的流行-新款-精选标签的currentType进行切换
     pTabClick(index) {
@@ -139,6 +145,8 @@ export default {
       getGoodsData(type, page).then((res) => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+        // 清除pullingUp事件，使他下一次仍可以正常触发
+        this.$refs.scroller.scroller.finishPullUp()
       });
     },
   },
