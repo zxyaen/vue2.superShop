@@ -1,13 +1,12 @@
 <template>
-  <div class="goods-item">
-    <a :href="goodItem.link">
+  <div class="goods-item" @click="goodsDetail">
+
     <img :src="goodItem.show.img" alt="" @load="imageLoad">
     <div class="goods-info">
       <p >{{goodItem.title}}</p>
       <span class="price">{{goodItem.price}}</span>
       <span class="collect">{{goodItem.sale}}</span>
     </div>
-    </a>
   </div>
 
 </template>
@@ -27,6 +26,10 @@
           imageLoad(){
             // ？？？？？？？
             this.$bus.$emit('imageLoad')
+          },
+          // 跳转到详情页
+          goodsDetail(){
+            this.$router.push('/detail/'+this.goodItem.iid)
           }
         },
     }

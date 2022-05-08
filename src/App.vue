@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <!-- router-view使路由页面渲染到这里 -->
+    <keep-alive exclude="Detail">
     <router-view></router-view>
+    </keep-alive>
     <main-tar-bar></main-tar-bar>
   </div>
 </template>

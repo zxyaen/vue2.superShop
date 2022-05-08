@@ -4,8 +4,8 @@
 /*:root -> 获取根元素html*/
 :root {
   --color-text: #666;
-  --color-high-text: #0075af;
-  --color-tint: #4192e2;
+  --color-high-text: #f6c4fa;
+  --color-tint: #e46062;
   --color-background: #fff;
   --font-size: 14px;
   --line-height: 1.5;
