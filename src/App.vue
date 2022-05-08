@@ -4,7 +4,7 @@
     <keep-alive exclude="Detail">
     <router-view></router-view>
     </keep-alive>
-    <main-tar-bar></main-tar-bar>
+    <main-tar-bar v-if="showTabBar"></main-tar-bar>
   </div>
 </template>
 
@@ -13,6 +13,17 @@
   import MainTarBar from 'components/contents/maintarbar/MainTarBar'
   export default {
     name: 'app',
+    data(){
+      return{
+        showTabBar:true
+      }
+    },
+    methods:{
+      // 使子组件动态改变tabbar是否显示
+      changeTabBar(){
+        this.$bus.$on('')
+      }
+    },
     components: {
         MainTarBar
     }

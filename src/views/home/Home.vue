@@ -155,6 +155,11 @@ export default {
       }
     },
 
+    // 改变tabbar布尔值为真
+    changeTabBar(){
+      
+    },
+
     /**
      * 网络请求相关方法
      */
