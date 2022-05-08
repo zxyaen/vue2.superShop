@@ -4,7 +4,12 @@
     <nav-bar class="home-nav-bar"><div slot="center">购物街</div></nav-bar>
 
     <!-- ref 是用于定位元素和取到组件的内容，:是绑定属性 @是绑定方法-->
-    <!--  -->
+    <tab-control
+      :ctitles="['流行', '新款', '精选']"
+      @tabClick="pTabClick"
+      ref="TabControl"
+      :class="{ isFixed: isFixed }"
+    />
     <scroller
       class="home-scroller"
       ref="scroller"
@@ -14,16 +19,16 @@
       @pullingUp="pullMore"
     >
       <!-- 轮播部分 -->
-      <home-swiper :cbanners="banners" />
+      <home-swiper :cbanners="banners" @swiperLoad="swiperLoad" />
       <!-- 推荐部分 -->
       <home-recommend :crecommends="recommends" />
       <!-- 本周流行大图 -->
       <home-feature-view />
       <!-- 三个小版块，通过点击决定触发那个goods-list -->
       <tab-control
-        class="home-tab-control"
         :ctitles="['流行', '新款', '精选']"
         @tabClick="pTabClick"
+        ref="TabControl"
       />
       <!-- 商品渲染列表，使用showGoods对传入数据进行封装 -->
       <goods-list :cgoods="showGoods" />
@@ -74,6 +79,8 @@ export default {
       },
       currentType: "pop",
       isShowBackTop: false,
+      tabOffsetTop: 0,
+      isFixed: false,
     };
   },
 
@@ -86,6 +93,7 @@ export default {
     this.getHomeGoodsData("new");
     this.getHomeGoodsData("sell");
   },
+  mounted() {},
   computed: {
     // 决定将哪个展示数据传给goods渲染组件
     showGoods() {
@@ -104,21 +112,32 @@ export default {
 
     // 获取对位置的实时监测，决定是否要回到顶部
     getPosition(position) {
-      // 如果向下滚动超过300px，则显示回到顶部按钮
-      this.isShowBackTop = -position.y > 300;
-      // console.log(-position.y);
+      // 1.决定BackUp是否显示
+      // 如果向下滚动超过500px，则显示回到顶部按钮
+      this.isShowBackTop = -position.y > 500;
+
+      // 2.决定tabControl是否固定
+      this.isFixed = -position.y > this.tabOffsetTop;
     },
     // 上拉加载更多事件
-    pullMore(){
-      this.getHomeGoodsData(this.currentType)
+    pullMore() {
+      this.getHomeGoodsData(this.currentType);
       // console.log("上拉加载更多");
     },
-    imageLoad(){
-      // ？？？？？？？？？？？？
-      this.$bus.$on('imageLoad',()=>{
-        console.log('成功监听');
-        this.$refs.scroller.scroller.refr
-      })
+
+    // // 对图片加载进行监听，动态改变scroll高度
+    // imageLoad(){
+    //   // ？？？？？？？？？？？？
+    //   this.$bus.$on('imageLoad',()=>{
+    //     console.log('成功监听');
+    //     this.$refs.scroller.scroller.refr
+    //   })
+    // },
+
+    // 对轮播是否加载完成进行监听，获取正确tabControl的offsetTop值
+    swiperLoad() {
+      this.tabOffsetTop = this.$refs.TabControl.$el.offsetTop;
+      // console.log(this.tabOffsetTop);
     },
 
     // 对选中的流行-新款-精选标签的currentType进行切换
@@ -153,7 +172,7 @@ export default {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
         // 清除pullingUp事件，使他下一次仍可以正常触发
-        this.$refs.scroller.scroller.finishPullUp()
+        this.$refs.scroller.scroller.finishPullUp();
       });
     },
   },
@@ -172,18 +191,11 @@ export default {
   background-color: var(--color-tint);
   color: #fff;
 
-  position: fixed;
+  /* position: fixed;
   left: 0;
   right: 0;
   top: 0;
-  z-index: 9;
-}
-
-.home-tab-control {
-  /*两个要混合使用*/
-  position: sticky;
-  top: 43px; /*顶部navbar的高度*/
-  z-index: 9;
+  z-index: 9; */
 }
 
 .home-scroller {
@@ -194,5 +206,9 @@ export default {
   right: 0;
   left: 0;
   height: calc(100% - 93px);
+}
+.isFixed {
+  position: relative;
+  z-index: 99;
 }
 </style>
