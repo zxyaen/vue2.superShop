@@ -111,7 +111,14 @@ export default {
     // 上拉加载更多事件
     pullMore(){
       this.getHomeGoodsData(this.currentType)
-      console.log("上拉加载更多");
+      // console.log("上拉加载更多");
+    },
+    imageLoad(){
+      // ？？？？？？？？？？？？
+      this.$bus.$on('imageLoad',()=>{
+        console.log('成功监听');
+        this.$refs.scroller.scroller.refr
+      })
     },
 
     // 对选中的流行-新款-精选标签的currentType进行切换

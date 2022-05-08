@@ -60,6 +60,11 @@ export default {
       this.scroller.scrollTo(0, 0);
     },
   },
+  // 封装refresh方法
+  refr(){
+    this.scroller.refresh()
+    console.log('---');
+  }
 };
 </script>
 
