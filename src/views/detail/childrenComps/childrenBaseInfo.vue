@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="goods">
     <p class="title">{{ goods.title }}</p>
     <div>
       <ul class="priceStyle">
@@ -28,7 +28,9 @@
 export default {
   name: "childrenBaseInfo",
   data() {
-    return {};
+    return {
+
+    };
   },
   props: ["goods"],
 };
