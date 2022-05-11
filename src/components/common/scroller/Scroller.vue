@@ -70,7 +70,6 @@ export default {
     // 封装refresh方法
     refresh() {
       this.scroller.refresh();
-      console.log("---");
     },
   },
 };

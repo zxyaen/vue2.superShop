@@ -93,7 +93,9 @@ export default {
     this.getHomeGoodsData("new");
     this.getHomeGoodsData("sell");
   },
-  mounted() {},
+  mounted() {
+
+  },
   computed: {
     // 决定将哪个展示数据传给goods渲染组件
     showGoods() {
@@ -126,14 +128,14 @@ export default {
       // console.log("上拉加载更多");
     },
 
-    // // 对图片加载进行监听，动态改变scroll高度
-    // imageLoad(){
-    //   // ？？？？？？？？？？？？
-    //   this.$bus.$on('imageLoad',()=>{
-    //     console.log('成功监听');
-    //     this.$refs.scroller.scroller.refr
-    //   })
-    // },
+    // 对图片加载进行监听，动态改变scroll高度
+    // ?????无法监听到组件goodlistitem传来的imageLoad事件
+    imageLoad() {
+      this.$bus.$on("imageLoad", () => {
+        console.log("成功监听");
+        this.$refs.scroller.refresh();
+      });
+    },
 
     // 对轮播是否加载完成进行监听，获取正确tabControl的offsetTop值
     swiperLoad() {
@@ -157,9 +159,7 @@ export default {
     },
 
     // 改变tabbar布尔值为真
-    changeTabBar(){
-      
-    },
+    changeTabBar() {},
 
     /**
      * 网络请求相关方法

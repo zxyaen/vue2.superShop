@@ -19,10 +19,10 @@
       <detail-params-info :paramInfo="paramInfo" ref="param" />
       <!-- 商品评论部分 -->
       <detail-comment-info :commentInfo="commentInfo" ref="comment" />
-      <goods-list :cgoods="recommendInfo" ref="recommend">123</goods-list>
+      <goods-list :cgoods="recommendInfo" ref="recommend" />
     </scroller>
     <back-top v-show="isShowBackTop" @click.native="backTop" />
-    <bottom-bar />
+    <bottom-bar @addCart="addCart"/>
   </div>
 </template>
 
@@ -46,8 +46,13 @@ import BackTop from "../../components/contents/backTop/BackTop.vue";
 import GoodsList from "components/contents/good/GoodsList";
 
 // 导入请求数据模块
-import { getDetailData, Goods, shopInfo, Param ,getRecommend} from "network/detail";
-
+import {
+  getDetailData,
+  Goods,
+  shopInfo,
+  Param,
+  getRecommend,
+} from "network/detail";
 
 export default {
   name: "Detail",
@@ -65,6 +70,7 @@ export default {
       themeTopY: null,
       isShowBackTop: false,
       positionY: null,
+      product:null,
     };
   },
   components: {
@@ -110,11 +116,9 @@ export default {
     });
 
     // 7.获取推荐商品数据
-			getRecommend().then(res => {
-				this.recommendInfo = res.data.list
-        console.log(res.data.list);
-        console.log("111");
-			})
+    getRecommend().then((res) => {
+      this.recommendInfo = res.data.list;
+    });
   },
   methods: {
     // 点击跳转到相应位置
@@ -124,7 +128,7 @@ export default {
       this.themeTopY.push(0);
       this.themeTopY.push(this.$refs.param.$el.offsetTop);
       this.themeTopY.push(this.$refs.comment.$el.offsetTop);
-      // this.themeTopY.push(this.$refs.recommend.$el.offsetTop);
+      this.themeTopY.push(this.$refs.recommend.$el.offsetTop);
       // this.themeTopY.push(Number.MAX_VALUE);
     },
     titleClick(index) {
@@ -151,6 +155,19 @@ export default {
     // 返回顶部
     backTop() {
       this.$refs.scroll.scrollTo(0, 0);
+    },
+    //加入购物车
+    addCart() {
+      // 获取购物车需要展示的信息
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.id;
+
+      //将商品添加到购物车里
+      this.$store.commit("addCart", product);
     },
   },
 };
