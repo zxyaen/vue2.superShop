@@ -108,6 +108,7 @@ export default {
     backTopClick() {
       // 通过$refs拿到组件中的scroller对象
       this.$refs.scroller.scrollTo(0, 0, 500);
+      // console.log(this.$refs.scroller.scrollTo);
     },
 
     // 获取对位置的实时监测，决定是否要回到顶部

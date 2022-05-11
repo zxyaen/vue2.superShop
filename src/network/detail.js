@@ -9,6 +9,14 @@ export function getDetailData(iid) {
     })
 }
 
+
+//请求推荐recommend
+export function getRecommend(){
+	return request({
+		url:'/recommend'
+	})
+}
+
 // 封装goods类统一接收返回数据
 export class Goods {
     constructor(itemInfo, columns, services) {
@@ -23,12 +31,21 @@ export class Goods {
     }
 }
 
+// 对商店数据的封装
 export class shopInfo{
     constructor(shopInfo){
         this.name=shopInfo.name
-        this.img=shopInfo.request
+        this.logo=shopInfo.shopLogo
         this.allSell=shopInfo.cSells
         this.allGoods=shopInfo.cGoods
         this.score =shopInfo.score
     }
+}
+
+//参数信息
+export class Param {
+	constructor(info, rule) {
+	    this.info = info.set;
+		this.rule = rule.tables;
+	}
 }

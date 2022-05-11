@@ -44,27 +44,35 @@ export default {
       click: true,
     });
     // 2.监听滚动事件确定滚动位置
-    this.scroller.on("scroll", (position) => {
-      // 通过emit调用父组件身上的方法
-      this.$emit("scroll", position);
-    });
-  //   // 3.监听上拉事件
-    this.scroller.on("pullingUp", () => {
-      this.$emit("pullingUp")
-    });
+    if (this.probeType === 2 || this.probeType === 3) {
+      this.scroller.on("scroll", (position) => {
+        // 通过emit调用父组件身上的方法
+        this.$emit("scroll", position);
+      });
+    }
+    // 3.监听上拉事件
+    if (this.pullUpLoad) {
+      this.scroller.on("pullingUp", () => {
+        this.$emit("pullingUp");
+      });
+    }
   },
   methods: {
     //   回到顶部
     scrollTo(x, y, time = 300) {
       // 调用data中scroller数据，触发scrollTo事件
-      this.scroller.scrollTo(0, 0);
+      this.scroller.scrollTo(x, y, time);
+    },
+    // 上拉完成
+    finishPullUp() {
+      this.scroll.finishPullUp();
+    },
+    // 封装refresh方法
+    refresh() {
+      this.scroller.refresh();
+      console.log("---");
     },
   },
-  // 封装refresh方法
-  refr(){
-    this.scroller.refresh()
-    console.log('---');
-  }
 };
 </script>
 

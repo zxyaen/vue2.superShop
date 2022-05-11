@@ -34,6 +34,10 @@ export default {
   methods: {
       changeIndex(index){
           this.currentIndex=index
+          // 点击跳转到响应位置
+				this.$emit('titleClick', index)
+        // console.log(index);
+
       },
       back(){
           this.$router.back()
